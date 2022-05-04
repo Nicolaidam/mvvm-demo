@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		B1AF51A12822FB7B00F0284A /* mvvm_demoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AF51A02822FB7B00F0284A /* mvvm_demoApp.swift */; };
-		B1AF51A32822FB7B00F0284A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AF51A22822FB7B00F0284A /* ContentView.swift */; };
 		B1AF51A52822FB7C00F0284A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1AF51A42822FB7C00F0284A /* Assets.xcassets */; };
 		B1AF51A82822FB7C00F0284A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1AF51A72822FB7C00F0284A /* Preview Assets.xcassets */; };
 		B1AF51B12822FBF700F0284A /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = B1AF51B02822FBF700F0284A /* AppCore */; };
@@ -17,7 +16,6 @@
 /* Begin PBXFileReference section */
 		B1AF519D2822FB7B00F0284A /* mvvm-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mvvm-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1AF51A02822FB7B00F0284A /* mvvm_demoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mvvm_demoApp.swift; sourceTree = "<group>"; };
-		B1AF51A22822FB7B00F0284A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B1AF51A42822FB7C00F0284A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1AF51A72822FB7C00F0284A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B1AF51AE2822FB9800F0284A /* demo-package */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "demo-package"; sourceTree = "<group>"; };
@@ -57,7 +55,6 @@
 			isa = PBXGroup;
 			children = (
 				B1AF51A02822FB7B00F0284A /* mvvm_demoApp.swift */,
-				B1AF51A22822FB7B00F0284A /* ContentView.swift */,
 				B1AF51A42822FB7C00F0284A /* Assets.xcassets */,
 				B1AF51A62822FB7C00F0284A /* Preview Content */,
 			);
@@ -152,7 +149,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1AF51A32822FB7B00F0284A /* ContentView.swift in Sources */,
 				B1AF51A12822FB7B00F0284A /* mvvm_demoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
