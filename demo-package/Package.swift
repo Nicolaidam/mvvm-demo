@@ -28,6 +28,9 @@ let package = Package(
         .library(
             name: "Screen3",
             targets: ["Screen3"]),
+        .library(
+            name: "Shared",
+            targets: ["Shared"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -40,33 +43,51 @@ let package = Package(
         .target(
             name: "AppCore",
             dependencies: [
-            "APIClient",
-            "Model",
-            "Screen1",
-            "Screen2",
-            "Screen3",
-            "CombineSchedulers"
+                "APIClient",
+                "Model",
+                "Screen1",
+                "Screen2",
+                "Screen3",
+                "CombineSchedulers",
+                "Shared"
             ]),
         .target(
             name: "APIClient",
             dependencies: [
                 "Model",
                 "CombineSchedulers"
-                          ]),
+            ]),
         .target(
             name: "Model",
-            dependencies: []),
+            dependencies: [
+                "CombineSchedulers"
+            ]),
         .target(
             name: "Screen1",
-            dependencies: []),
+            dependencies: [
+                "CombineSchedulers",
+                "APIClient",
+                "Screen2",
+            ]),
         .target(
             name: "Screen2",
-            dependencies: []),
+            dependencies: [
+                "CombineSchedulers",
+                "APIClient"
+            ]),
         .target(
             name: "Screen3",
-            dependencies: []),
-//        .testTarget(
-//            name: "demo-packageTests",
-//            dependencies: ["demo-package"]),
+            dependencies: [
+                "CombineSchedulers",
+                "APIClient"
+            ]),
+        .target(
+            name: "Shared",
+            dependencies: [
+                "CombineSchedulers"
+            ]),
+        //        .testTarget(
+        //            name: "demo-packageTests",
+        //            dependencies: ["demo-package"]),
     ]
 )

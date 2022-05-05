@@ -9,5 +9,5 @@ import Combine
 import Model
 
 public struct APIClient {
-    public var fetchCrap: () -> AnyPublisher<Person, Never>
+    public var fetchPerson: () -> AnyPublisher<Person, Never>
 }

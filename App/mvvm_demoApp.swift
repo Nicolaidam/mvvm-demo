@@ -12,7 +12,7 @@ import SwiftUI
 struct mvvm_demoApp: App {
     var body: some Scene {
         WindowGroup {
-            AppCore(vm: .init(apiClient: .mock, mainQueue: .main))
+            AppCore(vm: .init(environment: .live(environment: .init(apiClient: .mock))))
         }
     }
 }

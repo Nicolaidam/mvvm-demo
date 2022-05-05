@@ -15,16 +15,22 @@ public struct AppCore: View {
             Button {
                 vm.navigateToScreen1()
             } label: {
-                Text("NavigateToScreen1")
+                Text("Sheet nav Screen1")
             }
-
+            
             Button {
                 vm.countUp()
             } label: {
                 Text("Count up")
             }
             Text("Amount: \(vm.count)")
+            if let person = vm.person {
+                Text(person.name)
+            } else {
+                ProgressView()
+            }
         }
+        .onAppear { vm.fetchPerson() }
         .sheet(
             isPresented: Binding(get: { vm.screen1 != nil }, set: { _ in }),
             onDismiss: { vm.onDismiss() },
@@ -35,6 +41,7 @@ public struct AppCore: View {
 
 struct Previews_AppCore_Previews: PreviewProvider {
     static var previews: some View {
-        AppCore(vm: .init(apiClient: .mock, mainQueue: .main))
+        AppCore(vm: .init(
+            environment: .live(environment: .init(apiClient: .mock))))
     }
 }

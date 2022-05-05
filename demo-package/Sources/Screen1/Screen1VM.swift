@@ -6,25 +6,42 @@
 //
 
 import APIClient
+import Combine
 import Foundation
 import Model
+import Shared
+
+public struct Screen1VMEnvironment {
+    var apiClient: APIClient
+    public init(apiClient: APIClient) {
+        self.apiClient = apiClient
+    }
+}
 
 public class Screen1VM: ObservableObject {
     
+    
     @Published var person: Person?
     @Published var count: Int
-    var apiClient: APIClient
+    @Published var isLoading: Bool = false
+    var environment: SystemEnvironment<Screen1VMEnvironment>
+    var cancellables: Set<AnyCancellable> = []
     
-    public init(apiClient: APIClient, count: Int) {
-        self.apiClient = apiClient
+    public init(environment: SystemEnvironment<Screen1VMEnvironment>, count: Int) {
+        self.environment = environment
         self.count = count
     }
     
     func fetchPerson() {
-        #warning("todo lav hent person kald her og lav også eksmpel med en fejl.. Så vi får en alert hvis kaldet fejler")
-//        apiClient.fetchCrap().assign(to: &person)
-    }
-    func navigateToScreen2() {
-        #warning("TODO lav navigering til screen2. I screen 2 skal der laves en dismiss knap så man kommer tilbage til AppCore. Evt også med en counter i Screen 3, som skal passe sammen med AppCore counteren")
+        #warning("TODO: lav error handling + tests")
+        self.isLoading = true
+        self.environment
+            .apiClient
+            .fetchPerson()
+            .sink { [weak self] person in
+                self?.person = person
+                self?.isLoading = false
+            }
+            .store(in: &cancellables)
     }
 }
