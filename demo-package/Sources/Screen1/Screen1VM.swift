@@ -19,8 +19,6 @@ public struct Screen1VMEnvironment {
 }
 
 public class Screen1VM: ObservableObject {
-    
-    
     @Published var person: Person?
     @Published var count: Int
     @Published var isLoading: Bool = false
@@ -43,5 +41,9 @@ public class Screen1VM: ObservableObject {
                 self?.isLoading = false
             }
             .store(in: &cancellables)
+    }
+    
+    func countUp() {
+        self.count += 1
     }
 }

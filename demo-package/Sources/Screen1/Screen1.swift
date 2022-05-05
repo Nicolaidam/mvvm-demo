@@ -23,6 +23,11 @@ public struct Screen1: View {
                 Text("Screen1")
                 Text("Count: \(vm.count)")
                 Button {
+                    vm.countUp()
+                } label: {
+                    Text("Count up")
+                }
+                Button {
                     vm.fetchPerson()
                 } label: {
                     Text("Fetch Person")
@@ -32,7 +37,6 @@ public struct Screen1: View {
                 } label: {
                     Text("Navigtionlink to Screen2")
                 }
-                
                 if vm.isLoading {
                     ProgressView()
                 } else {
@@ -45,6 +49,7 @@ public struct Screen1: View {
         }
     }
 }
+
 struct Previews_Screen1_Previews: PreviewProvider {
     static var previews: some View {
         Screen1(vm: .init(environment: .live(environment: .init(apiClient: .mock)), count: 99))
