@@ -21,7 +21,6 @@ public struct Screen2: View {
             } label: {
                 Text("Close")
             }
-
         }
     }
 }

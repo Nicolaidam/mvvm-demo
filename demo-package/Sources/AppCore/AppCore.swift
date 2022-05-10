@@ -17,7 +17,6 @@ public struct AppCore: View {
             } label: {
                 Text("Sheet nav Screen1")
             }
-            
             Button {
                 vm.countUp()
             } label: {
@@ -33,7 +32,7 @@ public struct AppCore: View {
         .onAppear { vm.fetchPerson() }
         .sheet(
             isPresented: Binding(get: { vm.screen1 != nil }, set: { _ in }),
-            onDismiss: { vm.onDismiss() },
+            onDismiss: { vm.onDismissScreen1() },
             content: { Screen1(vm: vm.screen1!) }
         )
     }

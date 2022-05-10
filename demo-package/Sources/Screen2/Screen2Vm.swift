@@ -21,6 +21,7 @@ public struct Screen2VMEnvironment {
 public class Screen2VM: ObservableObject {
 
     var environment: SystemEnvironment<Screen2VMEnvironment>
+    @Published public var closeTapped = false
     
     public init(environment: SystemEnvironment<Screen2VMEnvironment>) {
         self.environment = environment
@@ -28,5 +29,6 @@ public class Screen2VM: ObservableObject {
     
     func close() {
         
+        self.closeTapped = true
     }
 }

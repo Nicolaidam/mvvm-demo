@@ -20,6 +20,11 @@ public struct Screen1: View {
     public var body: some View {
         NavigationView {
             VStack {
+                Button.init {
+                    vm.closeSheet()
+                } label: {
+                    Text("Close")
+                }
                 Text("Screen1")
                 Text("Count: \(vm.count)")
                 Button {
@@ -32,8 +37,8 @@ public struct Screen1: View {
                 } label: {
                     Text("Fetch Person")
                 }
-                NavigationLink {
-                    Screen2(vm: .init(environment: vm.environment.map { .init(apiClient: $0.apiClient) }))
+                Button {
+                    vm.navigateToScreen2()
                 } label: {
                     Text("Navigtionlink to Screen2")
                 }
@@ -45,7 +50,24 @@ public struct Screen1: View {
                         Text("\(person.age)")
                     }
                 }
+
             }
+            .background(
+                NavigationLink(
+                    isActive: Binding(
+                        get: { vm.screen2 != nil },
+                        set: { _ in vm.navigationChangedScreen2() }),
+                    destination: {
+                        if let vm = vm.screen2 {
+                            Screen2(vm: vm)
+                        }
+                    },
+                    label: {
+                        EmptyView()
+                    }
+                )
+                
+            )
         }
     }
 }

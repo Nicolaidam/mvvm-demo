@@ -68,18 +68,21 @@ let package = Package(
                 "CombineSchedulers",
                 "APIClient",
                 "Screen2",
+                "Shared"
             ]),
         .target(
             name: "Screen2",
             dependencies: [
                 "CombineSchedulers",
-                "APIClient"
+                "APIClient",
+                "Shared"
             ]),
         .target(
             name: "Screen3",
             dependencies: [
                 "CombineSchedulers",
-                "APIClient"
+                "APIClient",
+                "Shared"
             ]),
         .target(
             name: "Shared",

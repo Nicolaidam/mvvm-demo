@@ -26,7 +26,7 @@ public class AppCoreVM: ObservableObject {
     @Published var person: Person? = nil
     @Published var count: Int = 0
     @Published var screen1: Screen1VM?
-    var cancellables: Set<AnyCancellable> = []
+    public var cancellables: Set<AnyCancellable> = []
     
     public init(environment: SystemEnvironment<AppCoreVMEnvironment>) {
         self.environment = environment
@@ -37,10 +37,37 @@ public class AppCoreVM: ObservableObject {
     }
     
     func navigateToScreen1() {
+        
         self.screen1 = Screen1VM(environment: self.environment.map { .init(apiClient: $0.apiClient) }, count: self.count)
+
+        self.screen1?.$count
+            .sink(receiveValue: { [weak self] value in
+                self?.count = value
+            })
+            .store(in: &cancellables)
+        
+        self.screen1?.$close
+            .sink(receiveValue: { [weak self] value in
+                if value {
+                    self?.onDismissScreen1()
+                }
+            })
+            .store(in: &cancellables)
+        
+        self.screen1?.$screen2.sink(receiveValue: { [weak self] screen2vm in
+            
+            screen2vm?.$closeTapped.sink(receiveValue: { [weak self]  bool in
+                
+                if bool {
+                    self?.screen1 = nil
+                }
+            })
+            .store(in: &self!.cancellables)
+        })
+        .store(in: &cancellables)
     }
     
-    func onDismiss() {
+    func onDismissScreen1() {
         self.screen1 = nil
     }
     

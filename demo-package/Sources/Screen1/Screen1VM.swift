@@ -10,6 +10,7 @@ import Combine
 import Foundation
 import Model
 import Shared
+import Screen2
 
 public struct Screen1VMEnvironment {
     var apiClient: APIClient
@@ -19,9 +20,11 @@ public struct Screen1VMEnvironment {
 }
 
 public class Screen1VM: ObservableObject {
-    @Published var person: Person?
-    @Published var count: Int
-    @Published var isLoading: Bool = false
+    @Published public var person: Person?
+    @Published public var count: Int
+    @Published public var isLoading: Bool = false
+    @Published public var screen2: Screen2VM?
+    @Published public var close = false
     var environment: SystemEnvironment<Screen1VMEnvironment>
     var cancellables: Set<AnyCancellable> = []
     
@@ -45,5 +48,17 @@ public class Screen1VM: ObservableObject {
     
     func countUp() {
         self.count += 1
+    }
+    
+    func navigateToScreen2() {
+        self.screen2 = .init(environment: self.environment.map { .init(apiClient: $0.apiClient) })
+    }
+    
+    func navigationChangedScreen2() {
+        self.screen2 = nil
+    }
+    
+    func closeSheet() {
+        self.close = true
     }
 }
