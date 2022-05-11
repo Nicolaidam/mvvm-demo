@@ -25,6 +25,7 @@ public class Screen1VM: ObservableObject {
     @Published public var isLoading: Bool = false
     @Published public var screen2: Screen2VM?
     @Published public var close = false
+    @Published public var showError = false
     var environment: SystemEnvironment<Screen1VMEnvironment>
     var cancellables: Set<AnyCancellable> = []
     
@@ -34,15 +35,23 @@ public class Screen1VM: ObservableObject {
     }
     
     func fetchPerson() {
-        #warning("TODO: lav error handling + tests")
         self.isLoading = true
         self.environment
             .apiClient
             .fetchPerson()
-            .sink { [weak self] person in
+            .receive(on: environment.mainQueue)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    self.showError = true
+                    self.isLoading = false
+                case .finished:
+                    print("Publisher is finished")
+                    self.isLoading = false
+                }
+            }, receiveValue: { [weak self] person in
                 self?.person = person
-                self?.isLoading = false
-            }
+            })
             .store(in: &cancellables)
     }
     

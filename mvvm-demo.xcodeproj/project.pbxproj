@@ -36,8 +36,8 @@
 		B1AF51942822FB7B00F0284A = {
 			isa = PBXGroup;
 			children = (
-				B1AF51AE2822FB9800F0284A /* demo-package */,
 				B1AF519F2822FB7B00F0284A /* App */,
+				B1AF51AE2822FB9800F0284A /* demo-package */,
 				B1AF519E2822FB7B00F0284A /* Products */,
 				B1AF51AF2822FBF700F0284A /* Frameworks */,
 			);

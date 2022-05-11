@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Person {
+public struct Person: Equatable {
     public var name: String
     public var age: Int
     

@@ -89,8 +89,17 @@ let package = Package(
             dependencies: [
                 "CombineSchedulers"
             ]),
-        //        .testTarget(
-        //            name: "demo-packageTests",
-        //            dependencies: ["demo-package"]),
+        .testTarget(
+            name: "AppCoreTests",
+            dependencies: ["AppCore"]),
+        .testTarget(
+            name: "Screen1Tests",
+            dependencies: ["Screen1"]),
+        .testTarget(
+            name: "Screen2Tests",
+            dependencies: ["Screen2"]),
+        .testTarget(
+            name: "Screen3Tests",
+            dependencies: ["Screen3"])
     ]
 )

@@ -19,14 +19,15 @@ public struct Screen2: View {
             Button {
                 vm.close()
             } label: {
-                Text("Close")
+                Text("Navigate back to home")
             }
         }
+        .navigationTitle(Text("Screen1"))
     }
 }
 
 struct Previews_Screen2_Previews: PreviewProvider {
     static var previews: some View {
-        Screen2(vm: .init(environment: .live(environment: .init(apiClient: .mock))))
+        Screen2(vm: .init(environment: .live(environment: .init(apiClient: .mockSuccess))))
     }
 }

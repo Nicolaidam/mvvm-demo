@@ -10,9 +10,20 @@ import CombineSchedulers
 import Model
 
 public extension APIClient {
-    static let mock = Self.init(fetchPerson: {
+    static let mockSuccess = Self.init(fetchPerson: {
         Just(Person(name: "Henrik Olsen", age: 99))
+        .setFailureType(to: GenericNetworkError.self)
         .delay(for: 2, scheduler: AnySchedulerOf<DispatchQueue>.main)
         .eraseToAnyPublisher()
     })
+    static let mockError = Self.init(fetchPerson: {
+        Fail(error: GenericNetworkError.error("error"))
+        .delay(for: 2, scheduler: AnySchedulerOf<DispatchQueue>.main)
+        .eraseToAnyPublisher()
+    })
+}
+
+public enum GenericNetworkError: Error, Equatable {
+    case urlError(URLError)
+    case error(String)
 }
