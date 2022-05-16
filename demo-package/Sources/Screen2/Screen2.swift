@@ -5,19 +5,23 @@
 //  Created by Nicolai Dam on 04/05/2022.
 //
 
+import Combine
 import SwiftUI
+import Shared
 
 public struct Screen2: View {
-    @ObservedObject public var vm: Screen2VM
     
-    public init(vm: Screen2VM) {
-        self.vm = vm
+    public var viewModel: ViewModel
+    
+    public init(initialState: Screen2State, environment: AppEnvironment) {
+        self.viewModel = ViewModel(state: initialState, environment: environment)
     }
+    
     public var body: some View {
         VStack {
             Text("Screen2")
             Button {
-                vm.close()
+                viewModel.trigger(.closeButtonTapped)
             } label: {
                 Text("Navigate back to home")
             }
@@ -28,6 +32,6 @@ public struct Screen2: View {
 
 struct Previews_Screen2_Previews: PreviewProvider {
     static var previews: some View {
-        Screen2(vm: .init(environment: .live(environment: .init(apiClient: .mockSuccess))))
+        Screen2(initialState: .init(), environment: .mock())
     }
 }

@@ -28,46 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AppCoreTests"
-               BuildableName = "AppCoreTests"
-               BlueprintName = "AppCoreTests"
-               ReferencedContainer = "container:demo-package">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Screen1Tests"
-               BuildableName = "Screen1Tests"
-               BlueprintName = "Screen1Tests"
-               ReferencedContainer = "container:demo-package">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Screen2Tests"
-               BuildableName = "Screen2Tests"
-               BlueprintName = "Screen2Tests"
-               ReferencedContainer = "container:demo-package">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Screen3Tests"
-               BuildableName = "Screen3Tests"
-               BlueprintName = "Screen3Tests"
-               ReferencedContainer = "container:demo-package">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

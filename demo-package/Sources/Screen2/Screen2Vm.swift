@@ -11,24 +11,37 @@ import Foundation
 import Model
 import Shared
 
-public struct Screen2VMEnvironment {
-    var apiClient: APIClient
-    public init(apiClient: APIClient) {
-        self.apiClient = apiClient
+public struct Screen2State: Equatable {
+    var closeTapped = false
+    
+    public init(closeTapped: Bool = false) {
+        self.closeTapped = closeTapped
     }
 }
 
-public class Screen2VM: ObservableObject {
+public enum Screen2Action {
+    case onAppear
+    case closeButtonTapped
+}
 
-    var environment: SystemEnvironment<Screen2VMEnvironment>
-    @Published public var closeTapped = false
-    
-    public init(environment: SystemEnvironment<Screen2VMEnvironment>) {
-        self.environment = environment
-    }
-    
-    func close() {
+public extension Screen2 {
+    class ViewModel: GenericViewModel {
+                
+        public var state: Screen2State
+        public var environment: AppEnvironment
         
-        self.closeTapped = true
+        public init(state: Screen2State, environment: AppEnvironment) {
+            self.state = state
+            self.environment = environment
+        }
+        
+        public func trigger(_ action: Screen2Action) {
+            switch action {
+            case .closeButtonTapped:
+                self.state.closeTapped = false
+            case .onAppear:
+                return
+            }
+        }
     }
 }

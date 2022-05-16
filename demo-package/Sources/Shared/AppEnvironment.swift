@@ -7,58 +7,51 @@
 
 import CombineSchedulers
 import Foundation
+import APIClient
 
-@dynamicMemberLookup
-public struct SystemEnvironment<Environment> {
+public struct AppEnvironment {
     
     public var mainQueue: AnySchedulerOf<DispatchQueue>
     public var date: () -> Date
     public var locale: Locale
     public var timeZone: TimeZone
     public var calendar: Calendar
-    public var environment: Environment
-    
-    public subscript<Value>(dynamicMember keyPath: WritableKeyPath<Environment, Value>) -> Value {
-        get { environment[keyPath: keyPath] }
-        set { environment[keyPath: keyPath] = newValue }
-    }
+    public var apiClient: APIClient
+
     /// Creates a live system environment with the wrapped environment provided.
     ///
     /// - Parameter environment: An environment to be wrapped in the system environment.
     /// - Returns: A new system environment.
-    public static func live(environment: Environment) -> Self {
+    public static func live() -> Self {
         return Self(
             mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
             date: Date.init,
             locale: Locale(identifier: "da_DK"),
             timeZone: .autoupdatingCurrent,
             calendar: Calendar(identifier: .gregorian),
-            environment: environment
+            apiClient: APIClient.mockSuccess
         )
     }
-    public static func test(environment: Environment, testScheduler: AnySchedulerOf<DispatchQueue>) -> Self {
+    
+    public static func test(testScheduler: AnySchedulerOf<DispatchQueue>) -> Self {
         return Self(
             mainQueue: testScheduler,
             date: Date.init,
             locale: Locale(identifier: "da_DK"),
             timeZone: .autoupdatingCurrent,
             calendar: Calendar(identifier: .gregorian),
-            environment: environment
+            apiClient: APIClient.mockSuccess
         )
     }
-    /// Transforms the underlying wrapped environment.
-    public func map<NewEnvironment>(
-        _ transform: @escaping (Environment) -> NewEnvironment
-    ) -> SystemEnvironment<NewEnvironment> {
-        .init(
-            mainQueue: mainQueue,
-            date: date,
-            locale: locale,
-            timeZone: timeZone,
-            calendar: calendar,
-            environment: transform(environment)
+    
+    public static func mock() -> Self {
+        return Self(
+            mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
+            date: Date.init,
+            locale: Locale(identifier: "da_DK"),
+            timeZone: .autoupdatingCurrent,
+            calendar: Calendar(identifier: .gregorian),
+            apiClient: APIClient.mockSuccess
         )
     }
 }
-
-

@@ -10,9 +10,10 @@ import SwiftUI
 
 @main
 struct mvvm_demoApp: App {
+    @ObservedObject var appCoreState = AppCoreState()
     var body: some Scene {
         WindowGroup {
-            AppCore(vm: .init(environment: .live(environment: .init(apiClient: .mockError))))
+            AppCore(initialState: appCoreState, environment: .mock())
         }
     }
 }

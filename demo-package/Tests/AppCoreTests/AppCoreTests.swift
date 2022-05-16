@@ -1,19 +1,19 @@
+////
+////  File.swift
+////  
+////
+////  Created by Nicolai Dam on 11/05/2022.
+////
 //
-//  File.swift
-//  
+//import XCTest
+//import Foundation
+//@testable import AppCore
 //
-//  Created by Nicolai Dam on 11/05/2022.
+//final class AppCoreTests: XCTestCase {
+//    func testExample() throws {
+//        
+////        let vm = AppCoreVM(environment: <#T##SystemEnvironment<AppCoreVMEnvironment>#>)
+// 
+//    }
+//}
 //
-
-import XCTest
-import Foundation
-@testable import AppCore
-
-final class AppCoreTests: XCTestCase {
-    func testExample() throws {
-        
-//        let vm = AppCoreVM(environment: <#T##SystemEnvironment<AppCoreVMEnvironment>#>)
- 
-    }
-}
-

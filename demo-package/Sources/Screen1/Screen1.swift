@@ -11,43 +11,43 @@ import Shared
 
 public struct Screen1: View {
     
-    @ObservedObject public var vm: Screen1VM
+    public var vm: ViewModel
     
-    public init(vm: Screen1VM) {
-        self.vm = vm
+    public init(initialState: Screen1State, environment: AppEnvironment) {
+        self.vm = .init(initialState: initialState, environment: environment)
     }
     
     public var body: some View {
         VStack {
-            if vm.showError {
+            if vm.state.showError {
                 Text("Error is returned")
             }
             Button {
-                vm.closeSheet()
+                vm.trigger(.closeSheet)
             } label: {
                 Text("Navigate back")
             }
             Text("Screen1")
-            Text("Count: \(vm.count)")
+            Text("Count: \(vm.state.count)")
             Button {
-                vm.countUp()
+                self.vm.trigger(.countUp)
             } label: {
                 Text("Count up")
             }
             Button {
-                vm.fetchPerson()
+                vm.trigger(.fetchPerson)
             } label: {
                 Text("Fetch Person")
             }
             Button {
-                vm.navigateToScreen2()
+                vm.trigger(.navigateToScreen2)
             } label: {
                 Text("Navigtionlink to Screen2")
             }
-            if vm.isLoading {
+            if vm.state.isLoading {
                 ProgressView()
             } else {
-                if let person = vm.person {
+                if let person = vm.state.person {
                     Text(person.name)
                     Text("\(person.age)")
                 }
@@ -58,11 +58,11 @@ public struct Screen1: View {
         .background(
             NavigationLink(
                 isActive: Binding(
-                    get: { vm.screen2 != nil },
-                    set: { _ in vm.navigationChangedScreen2() }),
+                    get: { vm.state.screen2 != nil },
+                    set: { _ in vm.trigger(.navigationChangedScreen2) }),
                 destination: {
-                    if let vm = vm.screen2 {
-                        Screen2(vm: vm)
+                    if let state = vm.state.screen2 {
+                        Screen2(initialState: state, environment: vm.environment)
                     }
                 },
                 label: {
@@ -74,8 +74,8 @@ public struct Screen1: View {
     }
 }
 
-struct Previews_Screen1_Previews: PreviewProvider {
-    static var previews: some View {
-        Screen1(vm: .init(environment: .live(environment: .init(apiClient: .mockSuccess)), count: 99))
-    }
-}
+//struct Previews_Screen1_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Screen1(vm: .init(environment: .live(environment: .init(apiClient: .mockSuccess)), count: 99))
+//    }
+//}

@@ -87,7 +87,8 @@ let package = Package(
         .target(
             name: "Shared",
             dependencies: [
-                "CombineSchedulers"
+                "CombineSchedulers",
+                "APIClient"
             ]),
         .testTarget(
             name: "AppCoreTests",
