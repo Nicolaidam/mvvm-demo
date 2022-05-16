@@ -11,34 +11,27 @@ import Foundation
 import Model
 import Shared
 
-public struct Screen2State: Equatable {
-    var closeTapped = false
-    
-    public init(closeTapped: Bool = false) {
-        self.closeTapped = closeTapped
-    }
-}
-
 public enum Screen2Action {
     case onAppear
     case closeButtonTapped
 }
 
-public extension Screen2 {
-    class ViewModel: GenericViewModel {
-                
-        public var state: Screen2State
+extension Screen2 {
+    
+    public class ViewModel: GenericViewModel {
+        
+        @Published public var closeTapped = false
         public var environment: AppEnvironment
         
-        public init(state: Screen2State, environment: AppEnvironment) {
-            self.state = state
+        public init(environment: AppEnvironment) {
             self.environment = environment
         }
         
         public func trigger(_ action: Screen2Action) {
             switch action {
             case .closeButtonTapped:
-                self.state.closeTapped = false
+                
+                self.closeTapped = false
             case .onAppear:
                 return
             }

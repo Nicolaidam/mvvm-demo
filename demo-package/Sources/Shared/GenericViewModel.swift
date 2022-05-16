@@ -11,11 +11,9 @@ import SwiftUI
 
 public protocol GenericViewModel: ObservableObject {
     
-    associatedtype State
     associatedtype Action
     associatedtype Environment
 
-    var state: State { get }
     var environment: Environment { get }
     
     func trigger(_ action: Action)

@@ -61,15 +61,13 @@ public struct Screen1: View {
                     get: { vm.screen2 != nil },
                     set: { _ in vm.trigger(.navigationChangedScreen2) }),
                 destination: {
-                    if let state = vm.screen2 {
-                        Screen2(initialState: state, environment: vm.environment)
+                    if let vm = vm.screen2 {
+                        Screen2(vm: vm)
                     }
                 },
                 label: {
                     EmptyView()
-                }
-            )
-            
+                })
         )
     }
 }

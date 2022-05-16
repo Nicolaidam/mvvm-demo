@@ -28,9 +28,9 @@ public enum AppCoreAction {
 
 extension AppCore  {
     
-    class ViewModel: ObservableObject {
+    public class ViewModel: GenericViewModel {
         
-        var environment: AppEnvironment
+        public var environment: AppEnvironment
         var cancellables: Set<AnyCancellable> = []
         @Published public var person: Person? = nil
         @Published public var count: Int = 0
@@ -38,11 +38,11 @@ extension AppCore  {
         @Published public var screen1NavigationLink: Screen1.ViewModel?
         @Published public var showError = false
         
-        init(environment: AppEnvironment) {
+        public init(environment: AppEnvironment) {
             self.environment = environment
         }
         
-        func trigger(_ action: AppCoreAction) {
+        public func trigger(_ action: AppCoreAction) {
             switch action {
                 
             case .countUp:
@@ -50,7 +50,7 @@ extension AppCore  {
                 
             case .navigateToScreen1Sheet:
 
-                @ObservedObject var screen1State =  Screen1.ViewModel(environment: self.environment, count: self.count)
+                 var screen1State =  Screen1.ViewModel(environment: self.environment, count: self.count)
                 
                 self.screen1Sheet = screen1State
                 
@@ -59,6 +59,27 @@ extension AppCore  {
                         self?.count = $0
                     }
                     .store(in: &cancellables)
+                
+                self.screen1Sheet?.$close
+                    .sink { [weak self] in
+                        if $0 {
+                            self?.screen1Sheet = nil
+                        }
+                    }
+                    .store(in: &cancellables)
+
+                self.screen1Sheet?.$screen2.sink(receiveValue: { [weak self] screen2vm in
+
+                    screen2vm?.$closeTapped.sink(receiveValue: { [weak self]  bool in
+
+                        print("Bol unfdet \(bool)")
+                        if bool {
+                            self?.screen1Sheet = nil
+                        }
+                    })
+                    .store(in: &self!.cancellables)
+                })
+                .store(in: &cancellables)
 
             case .navigateToScreen1NavigationLink:
 //                self.screen1NavigationLink = .init(count: self.count)
