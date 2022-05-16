@@ -4,10 +4,10 @@ import Shared
 
 public struct AppCore: View {
     
-    var vm: ViewModel
+    @ObservedObject var vm: ViewModel
     
-    public init(initialState: AppCoreState, environment: AppEnvironment) {
-        self.vm = .init(state: initialState, environment: environment)
+    public init(environment: AppEnvironment) {
+        self.vm = .init(environment: environment)
     }
     
     public var body: some View {
@@ -24,11 +24,11 @@ public struct AppCore: View {
                 } label: {
                     Text("Count up")
                 }
-                Text("Amount: \(vm.state.count)")
-                if vm.state.showError {
+                Text("Amount: \(vm.count)")
+                if vm.showError {
                     Text("Error fetching person")
                 }
-                if let person = vm.state.person {
+                if let person = vm.person {
                     Text(person.name)
                 } else {
                     ProgressView()
@@ -65,14 +65,11 @@ public struct AppCore: View {
         }
         .onAppear { vm.trigger(.fetchPerson) }
         .sheet(
-            isPresented: Binding(get: { vm.state.screen1Sheet != nil }, set: { _ in }),
+            isPresented: Binding(get: { vm.screen1Sheet != nil }, set: { _ in }),
             onDismiss: { vm.trigger(.onDismissScreen1Sheet) },
             content: {
                 NavigationView {
-                        Screen1(initialState: vm.state.screen1Sheet!, environment: vm.environment)
-//                        .onChange(of: vm.state.screen1Sheet?.count) { newValue in
-//                            vm.trigger(.countUp)
-//                        }
+                    Screen1(vm: vm.screen1Sheet!)
                 }
             }
         )

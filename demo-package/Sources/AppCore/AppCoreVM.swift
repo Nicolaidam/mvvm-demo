@@ -14,23 +14,6 @@ import Model
 import SwiftUI
 import Shared
 
-public class AppCoreState: ObservableObject {
-    
-    @Published public var person: Person? = nil
-    @Published public var count: Int = 0
-    @Published public var screen1Sheet: Screen1State?
-    @Published public var screen1NavigationLink: Screen1State?
-    @Published public var showError = false
-    
-    public init(person: Person? = nil, count: Int = 0, screen1Sheet: Screen1State? = nil, screen1NavigationLink: Screen1State? = nil, showError: Bool = false) {
-        self.person = person
-        self.count = count
-        self.screen1Sheet = screen1Sheet
-        self.screen1NavigationLink = screen1NavigationLink
-        self.showError = showError
-    }
-}
-
 public enum AppCoreAction {
     case countUp
     case navigateToScreen1Sheet
@@ -45,14 +28,17 @@ public enum AppCoreAction {
 
 extension AppCore  {
     
-    class ViewModel: GenericViewModel {
+    class ViewModel: ObservableObject {
         
-        var state: AppCoreState
         var environment: AppEnvironment
         var cancellables: Set<AnyCancellable> = []
+        @Published public var person: Person? = nil
+        @Published public var count: Int = 0
+        @Published public var screen1Sheet: Screen1.ViewModel?
+        @Published public var screen1NavigationLink: Screen1.ViewModel?
+        @Published public var showError = false
         
-        init(state: AppCoreState, environment: AppEnvironment) {
-            self.state = state
+        init(environment: AppEnvironment) {
             self.environment = environment
         }
         
@@ -60,23 +46,25 @@ extension AppCore  {
             switch action {
                 
             case .countUp:
-                self.state.count += 1
+                self.count += 1
                 
             case .navigateToScreen1Sheet:
 
-                @ObservedObject var screen1State = Screen1State(count: state.count)
+                @ObservedObject var screen1State =  Screen1.ViewModel(environment: self.environment, count: self.count)
                 
-                self.state.screen1Sheet = screen1State
+                self.screen1Sheet = screen1State
                 
-//                self.state.screen1Sheet?.$count
-//                    .sink { self.state.count = $0 }
-//                    .store(in: &cancellables)
+                self.screen1Sheet?.$count
+                    .sink { [weak self] in
+                        self?.count = $0
+                    }
+                    .store(in: &cancellables)
 
             case .navigateToScreen1NavigationLink:
-                self.state.screen1NavigationLink = .init(count: self.state.count)
-                
+//                self.screen1NavigationLink = .init(count: self.count)
+                return
             case .onDismissScreen1Sheet:
-                self.state.screen1Sheet = nil
+                self.screen1Sheet = nil
                 
             case .navigationChangedScreen2:
                 return
@@ -93,13 +81,13 @@ extension AppCore  {
                         receiveCompletion: { [weak self] completion in
                             switch completion {
                             case .failure(let error):
-                                self?.state.showError = true
+                                self?.showError = true
                             case .finished:
                                 print("Publisher is finished")
                             }
                         },
                         receiveValue: { [weak self] person in
-                            self?.state.person = person
+                            self?.person = person
                         })
                     .store(in: &cancellables)
                 

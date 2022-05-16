@@ -13,25 +13,6 @@ import Shared
 import Screen2
 import SwiftUI
 
-public class Screen1State: ObservableObject {
-    
-    @Published public var person: Person?
-    @Published public var count: Int
-    @Published public var isLoading: Bool = false
-    @Published public var screen2: Screen2State?
-    @Published public var close = false
-    @Published public var showError = false
-    
-    public init(person: Person? = nil, count: Int, isLoading: Bool = false, screen2: Screen2State? = nil, close: Bool = false, showError: Bool = false) {
-        self.person = person
-        self.count = count
-        self.isLoading = isLoading
-        self.screen2 = screen2
-        self.close = close
-        self.showError = showError
-    }
-}
-
 public enum Screen1Action {
     case fetchPerson
     case countUp
@@ -42,22 +23,27 @@ public enum Screen1Action {
 
 extension Screen1 {
     
-    public class ViewModel: GenericViewModel {
+    public class ViewModel: ObservableObject {
         
-        @ObservedObject public var state: Screen1State
         public let environment: AppEnvironment
         private var cancellables: Set<AnyCancellable> = []
+        @Published public var person: Person?
+        @Published public var count: Int = 0
+        @Published public var isLoading: Bool = false
+        @Published public var screen2: Screen2State?
+        @Published public var close = false
+        @Published public var showError = false
         
-        public init(initialState: Screen1State, environment: AppEnvironment) {
-            self.state = initialState
+        public init(environment: AppEnvironment, count: Int) {
             self.environment = environment
+            self.count = count
         }
         
         public func trigger(_ action: Screen1Action) {
             switch action {
                 
             case .fetchPerson:
-                self.state.isLoading = true
+                self.isLoading = true
                 self.environment
                     .apiClient
                     .fetchPerson()
@@ -65,27 +51,27 @@ extension Screen1 {
                     .sink(receiveCompletion: { completion in
                         switch completion {
                         case .failure(let error):
-                            self.state.showError = true
-                            self.state.isLoading = false
+                            self.showError = true
+                            self.isLoading = false
                         case .finished:
                             print("Publisher is finished")
-                            self.state.isLoading = false
+                            self.isLoading = false
                         }
                     }, receiveValue: { [weak self] person in
-                        self?.state.person = person
+                        self?.person = person
                     })
                     .store(in: &cancellables)
             case .countUp:
                 
-                self.state.count += 1
+                self.count += 1
                 
                 
             case .navigateToScreen2:
-                self.state.screen2 = .init()
+                self.screen2 = .init()
             case .navigationChangedScreen2:
-                self.state.screen2 = nil
+                self.screen2 = nil
             case .closeSheet:
-                self.state.close = true
+                self.close = true
             }
         }
     }
