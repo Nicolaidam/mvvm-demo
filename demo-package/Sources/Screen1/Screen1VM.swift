@@ -25,14 +25,14 @@ extension Screen1 {
     
     public class ViewModel: GenericViewModel {
         
-        public let environment: AppEnvironment
-        private var cancellables: Set<AnyCancellable> = []
         @Published public var person: Person?
         @Published public var count: Int = 0
         @Published public var isLoading: Bool = false
         @Published public var screen2: Screen2.ViewModel?
         @Published public var close = false
         @Published public var showError = false
+        public let environment: AppEnvironment
+        private var cancellables: Set<AnyCancellable> = []
         
         public init(environment: AppEnvironment, count: Int) {
             self.environment = environment
@@ -64,7 +64,7 @@ extension Screen1 {
             case .countUp:
                 self.count += 1
             case .navigateToScreen2:
-                @ObservedObject var vm: Screen2.ViewModel = .init(environment: self.environment)
+                let vm: Screen2.ViewModel = .init(environment: self.environment)
                 self.screen2 = vm
             case .navigationChangedScreen2:
                 self.screen2 = nil

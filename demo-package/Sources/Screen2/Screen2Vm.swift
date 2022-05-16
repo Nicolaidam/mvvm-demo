@@ -31,7 +31,7 @@ extension Screen2 {
             switch action {
             case .closeButtonTapped:
                 
-                self.closeTapped = false
+                self.closeTapped = true
             case .onAppear:
                 return
             }

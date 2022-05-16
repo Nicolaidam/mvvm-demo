@@ -11,7 +11,7 @@ import Shared
 
 public struct Screen2: View {
     
-    public var vm: ViewModel
+    @ObservedObject public var vm: ViewModel
     
     public init(vm: Screen2.ViewModel) {
         self.vm = vm
@@ -26,12 +26,12 @@ public struct Screen2: View {
                 Text("Navigate back to home")
             }
         }
-        .navigationTitle(Text("Screen1"))
+        .navigationTitle(Text("Screen2"))
     }
 }
 
-//struct Previews_Screen2_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Screen2(initialState: .init(), environment: .mock())
-//    }
-//}
+struct Previews_Screen2_Previews: PreviewProvider {
+    static var previews: some View {
+        Screen2(vm: .init(environment: .mock()))
+    }
+}

@@ -48,20 +48,19 @@ public struct AppCore: View {
                     }
                 )
             }
-            
-            //            .background(
-            //                NavigationLink(
-            //                    isActive: Binding(get: { vm.screen1NavigationLink != nil }, set: { _ in }),
-            //                    destination: {
-            //                        if let vm = vm.screen1NavigationLink {
-            //                            Screen1(vm: vm)
-            //                        }
-            //                    },
-            //                    label: {
-            //                        EmptyView()
-            //                    }
-            //                )
-            //            )
+            .background(
+                NavigationLink(
+                    isActive: Binding(get: { vm.screen1NavigationLink != nil }, set: {_ in vm.trigger(.navigationChangedScreen2) }),
+                    destination: {
+                        if let vm = vm.screen1NavigationLink {
+                            Screen1(vm: vm)
+                        }
+                    },
+                    label: {
+                        EmptyView()
+                    }
+                )
+            )
         }
         .onAppear { vm.trigger(.fetchPerson) }
         .sheet(
@@ -75,10 +74,9 @@ public struct AppCore: View {
         )
     }
 }
-//
-//struct Previews_AppCore_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AppCore(vm: .init(
-//            environment: .live(environment: .init(apiClient: .mockSuccess))))
-//    }
-//}
+
+struct Previews_AppCore_Previews: PreviewProvider {
+    static var previews: some View {
+        AppCore(environment: .mock())
+    }
+}

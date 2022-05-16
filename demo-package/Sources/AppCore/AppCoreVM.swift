@@ -20,7 +20,6 @@ public enum AppCoreAction {
     case navigateToScreen1NavigationLink
     case onDismissScreen1Sheet
     case navigationChangedScreen2
-    case onDismissScreen1NavigationLink
     case fetchPerson
     case setupSheet1SheetPublishers
     case setupSheet1NavigationLinkPublishers
@@ -50,47 +49,24 @@ extension AppCore  {
                 
             case .navigateToScreen1Sheet:
 
-                 var screen1State =  Screen1.ViewModel(environment: self.environment, count: self.count)
+                let screen1VM =  Screen1.ViewModel(environment: self.environment, count: self.count)
                 
-                self.screen1Sheet = screen1State
+                self.screen1Sheet = screen1VM
                 
-                self.screen1Sheet?.$count
-                    .sink { [weak self] in
-                        self?.count = $0
-                    }
-                    .store(in: &cancellables)
-                
-                self.screen1Sheet?.$close
-                    .sink { [weak self] in
-                        if $0 {
-                            self?.screen1Sheet = nil
-                        }
-                    }
-                    .store(in: &cancellables)
-
-                self.screen1Sheet?.$screen2.sink(receiveValue: { [weak self] screen2vm in
-
-                    screen2vm?.$closeTapped.sink(receiveValue: { [weak self]  bool in
-
-                        print("Bol unfdet \(bool)")
-                        if bool {
-                            self?.screen1Sheet = nil
-                        }
-                    })
-                    .store(in: &self!.cancellables)
-                })
-                .store(in: &cancellables)
+                return trigger(.setupSheet1SheetPublishers)
 
             case .navigateToScreen1NavigationLink:
-//                self.screen1NavigationLink = .init(count: self.count)
-                return
+                
+                let navLinkVM =  Screen1.ViewModel(environment: self.environment, count: self.count)
+                
+                self.screen1NavigationLink = navLinkVM
+                return trigger(.setupSheet1NavigationLinkPublishers)
+                
             case .onDismissScreen1Sheet:
                 self.screen1Sheet = nil
                 
             case .navigationChangedScreen2:
-                return
-                
-            case .onDismissScreen1NavigationLink:
+                self.screen1NavigationLink = nil
                 return
                 
             case .fetchPerson:
@@ -113,56 +89,62 @@ extension AppCore  {
                     .store(in: &cancellables)
                 
             case .setupSheet1SheetPublishers:
+
                 
-                return
-                //                self.screen1Sheet?.$close
-                //                    .sink(receiveValue: { [weak self] value in
-                //                        if value {
-                //                            self?.onDismissScreen1Sheet()
-                //                        }
-                //                    })
-                //                    .store(in: &cancellables)
-                //
-                //                self.state.screen1Sheet?.$screen2.sink(receiveValue: { [weak self] screen2vm in
-                //
-                //                    screen2vm?.$closeTapped.sink(receiveValue: { [weak self]  bool in
-                //
-                //                        if bool {
-                //                            self?.screen1Sheet = nil
-                //                        }
-                //                    })
-                //                    .store(in: &self!.cancellables)
-                //                })
-                //                .store(in: &cancellables)
+                self.screen1Sheet?.$count
+                    .sink { [weak self] in
+                        self?.count = $0
+                    }
+                    .store(in: &cancellables)
+                
+                self.screen1Sheet?.$close
+                    .sink { [weak self] in
+                        if $0 {
+                            self?.screen1Sheet = nil
+                        }
+                    }
+                    .store(in: &cancellables)
+
+                self.screen1Sheet?.$screen2.sink(receiveValue: { [weak self] screen2vm in
+
+                    screen2vm?.$closeTapped.sink(receiveValue: { [weak self]  bool in
+
+                        if bool {
+                            self?.screen1Sheet = nil
+                        }
+                    })
+                    .store(in: &self!.cancellables)
+                })
+                .store(in: &cancellables)
+
                 
             case .setupSheet1NavigationLinkPublishers:
-                return
-                //                self.state.screen1NavigationLink?.$count
-                //                    .sink(receiveValue: { [weak self] value in
-                //                        self?.count = value
-                //                    })
-                //                    .store(in: &cancellables)
-                //
-                //                self.state.screen1NavigationLink?.$close
-                //                    .sink(receiveValue: { [weak self] value in
-                //                        if value {
-                //                            self?.onDismissScreen1NavigationLink()
-                //                        }
-                //                    })
-                //                    .store(in: &cancellables)
-                //
-                //                self.state.screen1NavigationLink?.$screen2.sink(receiveValue: { [weak self] screen2vm in
-                //
-                //                    screen2vm?.$closeTapped.sink(receiveValue: { [weak self]  bool in
-                //
-                //                        if bool {
-                //                            self?.screen1Sheet = nil
-                //                        }
-                //                    })
-                //                    .store(in: &self!.cancellables)
-                //                })
-                //                .store(in: &cancellables)
+
+                self.screen1NavigationLink?.$count
+                    .sink { [weak self] in
+                        self?.count = $0
+                    }
+                    .store(in: &cancellables)
                 
+                self.screen1NavigationLink?.$close
+                    .sink { [weak self] in
+                        if $0 {
+                            self?.screen1NavigationLink = nil
+                        }
+                    }
+                    .store(in: &cancellables)
+
+                self.screen1NavigationLink?.$screen2.sink(receiveValue: { [weak self] screen2vm in
+
+                    screen2vm?.$closeTapped.sink(receiveValue: { [weak self]  bool in
+
+                        if bool {
+                            self?.screen1NavigationLink = nil
+                        }
+                    })
+                    .store(in: &self!.cancellables)
+                })
+                .store(in: &cancellables)
             }
         }
     }

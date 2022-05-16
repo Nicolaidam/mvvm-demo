@@ -72,8 +72,8 @@ public struct Screen1: View {
     }
 }
 
-//struct Previews_Screen1_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Screen1(vm: .init(environment: .live(environment: .init(apiClient: .mockSuccess)), count: 99))
-//    }
-//}
+struct Previews_Screen1_Previews: PreviewProvider {
+    static var previews: some View {
+        Screen1(vm: .init(environment: .mock(), count: 0))
+    }
+}
